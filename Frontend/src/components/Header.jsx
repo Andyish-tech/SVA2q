@@ -2,38 +2,32 @@ import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className="sticky-header">
-      <nav className="container nav-bar">
+    <header className="header">
+      <div className="header-inner">
         <div className="logo">
-          <NavLink to="/">Antigravity Devs</NavLink>
+          <NavLink to="/" className="logo-text">SVA^2 Devs</NavLink>
         </div>
-        <ul className="nav-links">
-          <li>
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink 
-              to="/form" 
-              className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-            >
-              Register
-            </NavLink>
-          </li>
-          <li>
-            <NavLink 
-              to="/table" 
-              className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-            >
-              Students
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+        <nav className="nav">
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            Home
+          </NavLink>
+          <NavLink 
+            to="/form" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            Register
+          </NavLink>
+          <NavLink 
+            to="/table" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            Students
+          </NavLink>
+        </nav>
+      </div>
     </header>
   );
 };

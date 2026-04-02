@@ -3,19 +3,15 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="container footer-content">
-        <div className="footer-info">
-          <h3>Antigravity Devs</h3>
-          <p>Empowering the next generation of tech leaders.</p>
-        </div>
+      <div className="footer-inner">
+        <div className="logo-text">SVA^2</div>
+        <p className="footer-tagline">Empowering the next generation of tech leaders.</p>
         <div className="footer-links">
           <a href="#about">About</a>
           <a href="#privacy">Privacy</a>
           <a href="#contact">Contact</a>
         </div>
-      </div>
-      <div className="footer-bottom">
-        <p>&copy; {currentYear} Antigravity Devs. All rights reserved.</p>
+        <p className="footer-copy">&copy; {currentYear} SVA^2 Devs. All rights reserved.</p>
       </div>
     </footer>
   );

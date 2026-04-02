@@ -22,7 +22,6 @@ const TablePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Sorting logic
   const requestSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -31,12 +30,16 @@ const TablePage = () => {
     setSortConfig({ key, direction });
   };
 
-  const getSortIcon = (key) => {
-    if (sortConfig.key !== key) return '↕️';
-    return sortConfig.direction === 'asc' ? '🔼' : '🔽';
+  const getSortIconClass = (key) => {
+    if (sortConfig.key !== key) return 'sort-icon';
+    return 'sort-icon active';
   };
 
-  // Filtering logic
+  const getSortArrow = (key) => {
+    if (sortConfig.key !== key) return '↕';
+    return sortConfig.direction === 'asc' ? '↑' : '↓';
+  };
+
   const filteredStudents = useMemo(() => {
     return studentsData
       .filter((student) => {
@@ -44,9 +47,7 @@ const TablePage = () => {
           student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
           student.course.toLowerCase().includes(searchTerm.toLowerCase());
-        
         const matchesStatus = statusFilter === 'All' || student.status === statusFilter;
-        
         return matchesSearch && matchesStatus;
       })
       .sort((a, b) => {
@@ -60,7 +61,6 @@ const TablePage = () => {
       });
   }, [searchTerm, statusFilter, sortConfig]);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentStudents = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
@@ -72,111 +72,108 @@ const TablePage = () => {
   };
 
   return (
-    <div className="container table-page">
-      <div className="table-header">
-        <h2>Student Directory</h2>
-        <p>Manage and view all registered students.</p>
-      </div>
-
-      <div className="table-controls">
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search by name, email or course..."
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-        </div>
-
-        <div className="filter-buttons">
-          {['All', 'Active', 'Inactive', 'Suspended'].map((status) => (
-            <button
-              key={status}
-              className={`filter-btn ${statusFilter === status ? 'active' : ''}`}
-              onClick={() => {
-                setStatusFilter(status);
+    <div className="page-wrapper">
+      <div className="table-container">
+        <div className="table-header">
+          <div>
+            <h1>Student Directory</h1>
+            <p>Displaying {filteredStudents.length} students total</p>
+          </div>
+          <div className="table-controls">
+            <input
+              type="text"
+              placeholder="Search students..."
+              className="input search-input"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-            >
-              {status}
-            </button>
-          ))}
+            />
+            <div className="filter-tabs">
+              {['All', 'Active', 'Inactive', 'Suspended'].map((status) => (
+                <button
+                  key={status}
+                  className={`filter-tab ${statusFilter === status ? 'active' : ''}`}
+                  onClick={() => {
+                    setStatusFilter(status);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th onClick={() => requestSort('id')}>ID {getSortIcon('id')}</th>
-              <th onClick={() => requestSort('name')}>Name {getSortIcon('name')}</th>
-              <th onClick={() => requestSort('email')}>Email {getSortIcon('email')}</th>
-              <th onClick={() => requestSort('course')}>Course {getSortIcon('course')}</th>
-              <th onClick={() => requestSort('level')}>Level {getSortIcon('level')}</th>
-              <th onClick={() => requestSort('enrolled')}>Enrolled {getSortIcon('enrolled')}</th>
-              <th onClick={() => requestSort('status')}>Status {getSortIcon('status')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentStudents.length > 0 ? (
-              currentStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.course}</td>
-                  <td>{student.level}</td>
-                  <td>{student.enrolled}</td>
-                  <td>
-                    <span className={`status-badge ${student.status.toLowerCase()}`}>
-                      {student.status}
-                    </span>
-                  </td>
-                </tr>
-              ))
-            ) : (
+        <div className="table-scroll">
+          <table className="data-table">
+            <thead>
               <tr>
-                <td colSpan="7" className="no-results">No students found matching your criteria.</td>
+                <th onClick={() => requestSort('id')}>ID <span className={getSortIconClass('id')}>{getSortArrow('id')}</span></th>
+                <th onClick={() => requestSort('name')}>Name <span className={getSortIconClass('name')}>{getSortArrow('name')}</span></th>
+                <th onClick={() => requestSort('email')}>Email <span className={getSortIconClass('email')}>{getSortArrow('email')}</span></th>
+                <th onClick={() => requestSort('course')}>Course <span className={getSortIconClass('course')}>{getSortArrow('course')}</span></th>
+                <th onClick={() => requestSort('level')}>Level <span className={getSortIconClass('level')}>{getSortArrow('level')}</span></th>
+                <th onClick={() => requestSort('enrolled')}>Enrolled <span className={getSortIconClass('enrolled')}>{getSortArrow('enrolled')}</span></th>
+                <th onClick={() => requestSort('status')}>Status <span className={getSortIconClass('status')}>{getSortArrow('status')}</span></th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {currentStudents.length > 0 ? (
+                currentStudents.map((student) => (
+                  <tr key={student.id}>
+                    <td>#{student.id}</td>
+                    <td style={{ fontWeight: 600 }}>{student.name}</td>
+                    <td className="email-cell">{student.email}</td>
+                    <td>{student.course}</td>
+                    <td><span className="level-badge">{student.level}</span></td>
+                    <td>{student.enrolled}</td>
+                    <td>
+                      <span className={`badge badge-${student.status.toLowerCase()}`}>
+                        {student.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="empty-row">No students found matching your criteria.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button 
-            disabled={currentPage === 1} 
-            onClick={() => goToPage(currentPage - 1)}
-            className="pag-btn"
-          >
-            Previous
-          </button>
-          
-          <div className="page-numbers">
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button 
+              disabled={currentPage === 1} 
+              onClick={() => goToPage(currentPage - 1)}
+              className="page-btn"
+            >
+              Previous
+            </button>
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i + 1}
-                className={`page-num ${currentPage === i + 1 ? 'active' : ''}`}
+                className={`page-btn ${currentPage === i + 1 ? 'active' : ''}`}
                 onClick={() => goToPage(i + 1)}
               >
                 {i + 1}
               </button>
             ))}
+            <button 
+              disabled={currentPage === totalPages} 
+              onClick={() => goToPage(currentPage + 1)}
+              className="page-btn"
+            >
+              Next
+            </button>
           </div>
-
-          <button 
-            disabled={currentPage === totalPages} 
-            onClick={() => goToPage(currentPage + 1)}
-            className="pag-btn"
-          >
-            Next
-          </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

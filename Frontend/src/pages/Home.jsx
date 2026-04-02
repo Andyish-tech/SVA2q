@@ -8,32 +8,34 @@ const Home = () => {
   const features = [
     {
       id: 1,
-      icon: '🎓',
-      title: 'Expert Faculty',
-      description: 'Learn from industry experts and experienced professors dedicated to your success.'
+      icon: '📚',
+      title: 'Rich Curriculum',
+      description: 'Access hundreds of courses across all disciplines.'
     },
     {
       id: 2,
-      icon: '💻',
-      title: 'Modern Facilities',
-      description: 'Access state-of-the-art labs and resources to enhance your learning experience.'
+      icon: '🎯',
+      title: 'Track Progress',
+      description: 'Monitor student performance with real-time analytics.'
     },
     {
       id: 3,
       icon: '🌍',
-      title: 'Global Community',
-      description: 'Connect with students from around the world and build a diverse network.'
+      title: 'Learn Anywhere',
+      description: 'Fully responsive — study from any device, any time.'
     }
   ];
 
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section className="hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${heroBg})` }}>
-        <div className="container hero-content">
-          <h1>Antigravity Devs</h1>
-          <p>Excellence in Education, Innovation in Technology.</p>
-          <div className="hero-btns">
+      <section className="hero">
+        <img src={heroBg} alt="Hero" className="hero-img" />
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <h1 className="hero-title">Welcome to SVA^2</h1>
+          <p className="hero-subtitle">The modern platform for student registration and management.</p>
+          <div className="hero-actions">
             <Link to="/form" className="btn btn-primary">Register Now</Link>
             <Link to="/table" className="btn btn-outline">View Students</Link>
           </div>
@@ -42,50 +44,35 @@ const Home = () => {
 
       {/* Features Section */}
       <section className="features">
-        <div className="container">
-          <div className="section-header">
-            <h2>Our Key Features</h2>
-            <p>What makes us the best choice for your education.</p>
-          </div>
-          <div className="feature-grid">
-            {features.map((feature) => (
-              <div key={feature.id} className="feature-card">
-                <div className="feature-icon">{feature.icon}</div>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </div>
-            ))}
-          </div>
+        <h2 className="section-title">Why SVA^2?</h2>
+        <div className="features-grid">
+          {features.map((feature) => (
+            <div key={feature.id} className="feature-card">
+              <span className="feature-icon">{feature.icon}</span>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Gallery Section */}
       <section className="gallery">
-        <div className="container">
-          <div className="section-header">
-            <h2>Campus Gallery</h2>
-            <p>Explore our vibrant campus life.</p>
-          </div>
-          <div className="gallery-grid">
-            <div className="gallery-item">
-              <img src={gallery1} alt="Library" />
-            </div>
-            <div className="gallery-item">
-              <img src={gallery2} alt="Computer Lab" />
-            </div>
-            <div className="gallery-item">
-              <img src={gallery3} alt="Campus" />
-            </div>
-          </div>
+        <h2 className="section-title">TEAM</h2>
+        <div className="gallery-grid">
+          <img src={gallery1} alt="Library" />
+          <img src={gallery2} alt="Computer Lab" />
+          <img src={gallery3} alt="Campus" />
+          <img src={gallery2} alt="Computer Lab" />
         </div>
       </section>
 
       {/* Call to Action Section */}
       <section className="cta">
-        <div className="container cta-content">
-          <h2>Ready to Start Your Journey?</h2>
-          <p>Join thousands of students and transform your future today.</p>
-          <Link to="/form" className="btn btn-primary">Get Started</Link>
+        <div className="cta-inner">
+          <h2>Ready to get started?</h2>
+          <p>Join thousands of students already using SVA^2.</p>
+          <Link to="/form" className="btn btn-primary">Register a Student</Link>
         </div>
       </section>
     </div>
